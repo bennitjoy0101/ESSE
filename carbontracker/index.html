@@ -31,7 +31,6 @@
         <a href="pages/tips.html" class="sidebar-link">🌿 Tips & Actions</a>
         <a href="pages/profile.html" class="sidebar-link">👤 Profile</a>
         <a href="pages/settings.html" class="sidebar-link">⚙️ Settings</a>
-        <a href="#" onclick="logout(); return false;" class="sidebar-link">🚪 Logout</a>
       </nav>
     </div>
     <div class="sidebar-footer-card">
@@ -49,7 +48,22 @@
       </div>
       <div class="topbar-icons">
         <div class="icon-btn">🔔</div>
-        <div class="icon-btn profile">👤</div>
+        <div class="profile-menu">
+          <div class="icon-btn profile" id="profileBtn">👤</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">👤</div>
+              <div>
+                <div class="profile-dropdown-name" id="dropdownUserName">User</div>
+                <div class="profile-dropdown-email" id="dropdownUserEmail">Loading…</div>
+              </div>
+            </div>
+            <a href="pages/profile.html" class="profile-dropdown-item">👤 Account Details</a>
+            <a href="pages/settings.html" class="profile-dropdown-item">⚙️ Settings</a>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-dropdown-item signout" id="signOutBtn">🚪 Sign Out</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -115,5 +129,51 @@
 
 <script src="js/data.js"></script>
 <script src="js/dashboard.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById('profileBtn');
+  var menu = document.getElementById('profileDropdown');
+  if (btn && menu) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('open');
+      }
+    });
+  }
+
+  // Populate account details from Firebase auth, if available.
+  try {
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        var nameEl = document.getElementById('dropdownUserName');
+        var emailEl = document.getElementById('dropdownUserEmail');
+        if (user) {
+          if (nameEl) nameEl.textContent = user.displayName || 'User';
+          if (emailEl) emailEl.textContent = user.email || '';
+        } else {
+          if (emailEl) emailEl.textContent = 'Not signed in';
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('Could not load account details:', err);
+  }
+
+  var signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', function () {
+      if (typeof logout === 'function') {
+        logout();
+      } else {
+        window.location.href = 'pages/login.html';
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
