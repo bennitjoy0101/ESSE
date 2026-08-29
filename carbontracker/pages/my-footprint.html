@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>My Footprint · Carbon Footprint Tracker</title>
 <link rel="stylesheet" href="../css/styles.css" />
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
 <script src="../js/theme.js"></script>
 </head>
 <body>
 <div class="app-layout">
-
   <!-- ===== SIDEBAR (copied from index.html — keep in sync with other pages) ===== -->
   <aside class="sidebar">
     <div>
@@ -32,10 +34,8 @@
       🌍 Small steps today,<br>better planet tomorrow.
     </div>
   </aside>
-
   <!-- ===== MAIN ===== -->
   <main class="main-content">
-
     <div class="topbar">
       <div>
         <h1>My Footprint</h1>
@@ -43,10 +43,24 @@
       </div>
       <div class="topbar-icons">
         <div class="icon-btn">🔔</div>
-        <div class="icon-btn profile">U</div>
+        <div class="profile-menu">
+          <div class="icon-btn profile" id="profileBtn">U</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">U</div>
+              <div>
+                <div class="profile-dropdown-name" id="dropdownUserName">User</div>
+                <div class="profile-dropdown-email" id="dropdownUserEmail">Loading…</div>
+              </div>
+            </div>
+            <a href="profile.html" class="profile-dropdown-item">👤 Account Details</a>
+            <a href="settings.html" class="profile-dropdown-item">⚙️ Settings</a>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-dropdown-item signout" id="signOutBtn">🚪 Sign Out</button>
+          </div>
+        </div>
       </div>
     </div>
-
     <!-- Stat cards -->
     <div class="card-grid" id="footprintStats" style="margin-bottom: var(--space-lg);">
       <div class="stat-card">
@@ -67,7 +81,6 @@
         <div class="stat-value" id="statVsAverage">—</div>
       </div>
     </div>
-
     <!-- Monthly goal -->
     <div class="card">
       <div class="card-title">MONTHLY GOAL</div>
@@ -87,7 +100,6 @@
         <span class="tag" id="goalTag">—</span>
       </div>
     </div>
-
     <!-- Category breakdown -->
     <div class="card">
       <div class="card-title">FOOTPRINT COMPOSITION</div>
@@ -95,7 +107,6 @@
         <!-- rendered by my-footprint.js -->
       </div>
     </div>
-
     <!-- Comparison -->
     <div class="card">
       <div class="card-title">HOW YOU COMPARE</div>
@@ -121,11 +132,56 @@
         *Approximate monthly per-person footprint benchmark, used for comparison only.
       </p>
     </div>
-
   </main>
 </div>
-
 <script src="../js/data.js"></script>
 <script src="../js/my-footprint.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById('profileBtn');
+  var menu = document.getElementById('profileDropdown');
+  if (btn && menu) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('open');
+      }
+    });
+  }
+  try {
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        var nameEl = document.getElementById('dropdownUserName');
+        var emailEl = document.getElementById('dropdownUserEmail');
+        if (user) {
+          if (nameEl) nameEl.textContent = user.displayName || 'User';
+          if (emailEl) emailEl.textContent = user.email || '';
+        } else {
+          if (emailEl) emailEl.textContent = 'Not signed in';
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('Could not load account details:', err);
+  }
+  var signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', function () {
+      if (typeof logout === 'function') {
+        logout();
+      } else if (window.firebase && firebase.auth) {
+        firebase.auth().signOut().finally(function () {
+          window.location.href = 'login.html';
+        });
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
