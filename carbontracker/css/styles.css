@@ -10,6 +10,7 @@
   --color-primary: #2e7d32;
   --color-primary-dark: #1b5e20;
   --color-primary-light: #e8f5e9;
+  --color-primary-soft: #c8e6c9;
   --color-accent-orange: #f9a825;
   --color-accent-blue: #1e88e5;
   --color-accent-purple: #8e24aa;
@@ -18,9 +19,12 @@
   --color-text: #1f2937;
   --color-text-muted: #6b7280;
   --color-border: #e5e7eb;
-  --color-bg: #f7f8f6;
+  --color-bg: #f4f9f4;
   --color-card-bg: #ffffff;
-  --color-sidebar-bg: #f4f8f4;
+  --color-sidebar-bg: linear-gradient(180deg, #eef7ee 0%, #e4f2e5 100%);
+  --color-sidebar-bg-solid: #eef7ee;
+  --shadow-card: 0 1px 3px rgba(27, 94, 32, 0.07), 0 1px 2px rgba(27, 94, 32, 0.05);
+  --shadow-card-hover: 0 6px 16px rgba(27, 94, 32, 0.1);
 
   /* Spacing */
   --space-xs: 4px;
@@ -73,7 +77,7 @@ body {
 
 .sidebar {
   width: var(--sidebar-width);
-  background-color: var(--color-sidebar-bg);
+  background: var(--color-sidebar-bg);
   border-right: 1px solid var(--color-border);
   padding: var(--space-lg) var(--space-md);
   display: flex;
@@ -94,12 +98,14 @@ body {
   height: 48px;
   border-radius: 50%;
   border: 2px solid var(--color-primary);
+  background: var(--color-primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: var(--space-sm);
   color: var(--color-primary);
   font-size: 20px;
+  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.18);
 }
 
 .sidebar-logo-text {
@@ -125,16 +131,20 @@ body {
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.15s ease;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
 .sidebar-link:hover {
   background-color: var(--color-primary-light);
+  border-left-color: var(--color-primary-soft);
 }
 
 .sidebar-link.active {
   background-color: var(--color-primary);
   color: #fff;
+  border-left-color: var(--color-primary-dark);
+  box-shadow: 0 3px 8px rgba(46, 125, 50, 0.25);
 }
 
 .sidebar-footer-card {
@@ -185,11 +195,120 @@ body {
   background-color: var(--color-card-bg);
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.icon-btn:hover {
+  box-shadow: 0 3px 8px rgba(46, 125, 50, 0.2);
 }
 
 .icon-btn.profile {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: #fff;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Profile Dropdown Menu
+   ========================================================================== */
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  min-width: 240px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(27, 94, 32, 0.15);
+  padding: var(--space-sm);
+  z-index: 100;
+  animation: dropdown-fade 0.12s ease;
+}
+
+.profile-dropdown.open {
+  display: block;
+}
+
+@keyframes dropdown-fade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 6px;
+}
+
+.profile-dropdown-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.profile-dropdown-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.profile-dropdown-email {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.profile-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: background-color 0.15s ease;
+}
+
+.profile-dropdown-item:hover {
+  background-color: var(--color-primary-light);
+}
+
+.profile-dropdown-divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 6px 0;
+}
+
+.profile-dropdown-item.signout {
+  color: var(--color-accent-red);
+}
+
+.profile-dropdown-item.signout:hover {
+  background-color: #ffebee;
 }
 
 /* ==========================================================================
@@ -198,11 +317,16 @@ body {
 
 .card {
   background-color: var(--color-card-bg);
-  border: none;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  border: 1px solid rgba(46, 125, 50, 0.06);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-card);
   padding: var(--space-lg);
   margin-bottom: var(--space-lg);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
 }
 
 .card-title {
@@ -222,10 +346,15 @@ body {
 
 .stat-card {
   background-color: var(--color-card-bg);
-  border: none;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: 1px solid rgba(46, 125, 50, 0.06);
+  box-shadow: var(--shadow-card);
   border-radius: 12px;
   padding: var(--space-md);
+  transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-card-hover);
 }
 
 .stat-card .stat-label {
@@ -290,14 +419,20 @@ body {
 }
 
 .btn-primary {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
 }
 
 .btn-outline {
   background-color: transparent;
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary-light);
 }
 
 .btn-block {
@@ -368,4 +503,12 @@ body.dark-mode input[type="number"] {
   background-color: #1c211c;
   color: var(--color-text);
   border-color: var(--color-border);
+}
+
+body.dark-mode .profile-dropdown-item:hover {
+  background-color: #202920;
+}
+
+body.dark-mode .profile-dropdown-item.signout:hover {
+  background-color: #2a1a1a;
 }
