@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile - Carbon Footprint Tracker</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌱</div>
+        <div class="sidebar-logo-text">CARBON<br>FOOTPRINT<br>TRACKER</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="../index.html" class="sidebar-link">🏠 Dashboard</a>
+        <a href="add-data.html" class="sidebar-link">➕ Add Data</a>
+        <a href="../quiz/quiz.html" class="sidebar-link">📝 Take Quiz</a>
+        <a href="my-footprint.html" class="sidebar-link">👣 My Footprint</a>
+        <a href="history.html" class="sidebar-link">📊 History</a>
+        <a href="tips.html" class="sidebar-link">🌿 Tips & Actions</a>
+        <a href="profile.html" class="sidebar-link active">👤 Profile</a>
+        <a href="settings.html" class="sidebar-link">⚙️ Settings</a>
+      </nav>
+    </div>
+    <div class="sidebar-footer-card">
+      Small steps today,<br>better world tomorrow. 💚
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <div class="topbar">
+      <div>
+        <h1>Profile</h1>
+        <p>Manage your personal information and preferences.</p>
+      </div>
+      <div class="topbar-icons">
+        <div class="icon-btn">🔔</div>
+        <div class="icon-btn profile">👤</div>
+      </div>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns: 1.3fr 1fr; margin-bottom: 24px;">
+
+      <div class="card" style="margin-bottom:0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div class="card-title" style="margin-bottom:0;">PROFILE INFORMATION</div>
+          <button id="editProfileBtn" class="btn btn-outline" style="padding:6px 14px; font-size:12px;">Edit</button>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="color:var(--color-text-muted); font-size:13px;">Full Name</div>
+          <div id="nameDisplay" style="font-weight:600;">—</div>
+          <input id="nameInput" type="text" style="display:none; width:100%; padding:6px 8px; border-radius:6px; border:1px solid var(--color-border); margin-top:4px;">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="color:var(--color-text-muted); font-size:13px;">Email</div>
+          <div id="emailDisplay" style="font-weight:600;">—</div>
+          <input id="emailInput" type="email" style="display:none; width:100%; padding:6px 8px; border-radius:6px; border:1px solid var(--color-border); margin-top:4px;">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="color:var(--color-text-muted); font-size:13px;">Location</div>
+          <div id="locationDisplay" style="font-weight:600;">—</div>
+          <input id="locationInput" type="text" style="display:none; width:100%; padding:6px 8px; border-radius:6px; border:1px solid var(--color-border); margin-top:4px;">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="color:var(--color-text-muted); font-size:13px;">Member Since</div>
+          <div id="memberSinceDisplay" style="font-weight:600;">—</div>
+        </div>
+
+        <button id="saveProfileBtn" class="btn btn-primary" style="display:none;">Save</button>
+      </div>
+
+      <div class="card" style="margin-bottom:0; text-align:center;">
+        <div class="card-title" style="text-align:left;">YOUR IMPACT SUMMARY</div>
+        <div class="icon-circle green" style="width:80px; height:80px; font-size:32px; margin:0 auto 16px;">🌱</div>
+        <div id="impactHeadline" style="font-weight:600; margin-bottom:8px;">Add data to see your impact</div>
+        <div style="color:var(--color-text-muted); font-size:13px;">Keep it up, you're making a difference.</div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <div class="card-title">YOUR BADGES</div>
+      <div id="badgesGrid" class="card-grid">
+
+        <div class="badge-item" data-earned="false" style="text-align:center;">
+          <div class="icon-circle green" style="width:56px; height:56px; font-size:24px; margin:0 auto 10px;">👤</div>
+          <div style="font-weight:600; font-size:13px;">First Step</div>
+          <div style="color:var(--color-text-muted); font-size:12px;">Logged first data</div>
+        </div>
+
+        <div class="badge-item" data-earned="false" style="text-align:center;">
+          <div class="icon-circle green" style="width:56px; height:56px; font-size:24px; margin:0 auto 10px;">🌿</div>
+          <div style="font-weight:600; font-size:13px;">Eco Starter</div>
+          <div style="color:var(--color-text-muted); font-size:12px;">Added 7 days data</div>
+        </div>
+
+        <div class="badge-item" data-earned="false" style="text-align:center;">
+          <div class="icon-circle green" style="width:56px; height:56px; font-size:24px; margin:0 auto 10px;">🍃</div>
+          <div style="font-weight:600; font-size:13px;">Green Mover</div>
+          <div style="color:var(--color-text-muted); font-size:12px;">Reduced 10% emissions</div>
+        </div>
+
+        <div class="badge-item" data-earned="false" style="text-align:center;">
+          <div class="icon-circle orange" style="width:56px; height:56px; font-size:24px; margin:0 auto 10px;">🧺</div>
+          <div style="font-weight:600; font-size:13px;">Consistent</div>
+          <div style="color:var(--color-text-muted); font-size:12px;">30 days of tracking</div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/profile.js"></script>
+</body>
+</html>

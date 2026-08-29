@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ==========================================================================
+   Carbon Footprint Tracker — Shared Styles
+   Use this file across all pages (Dashboard, History, Tips, Profile, etc.)
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-primary: #2e7d32;
+  --color-primary-dark: #1b5e20;
+  --color-primary-light: #e8f5e9;
+  --color-accent-orange: #f9a825;
+  --color-accent-blue: #1e88e5;
+  --color-accent-purple: #8e24aa;
+  --color-accent-red: #e53935;
+
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-bg: #f7f8f6;
+  --color-card-bg: #ffffff;
+  --color-sidebar-bg: #f4f8f4;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Layout */
+  --sidebar-width: 240px;
+  --radius-card: 16px;
+  --radius-btn: 8px;
+
+  /* Font */
+  --font-main: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: var(--space-lg);
+  max-width: 1200px;
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--color-sidebar-bg);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-lg) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.sidebar-logo-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+  color: var(--color-primary);
+  font-size: 20px;
+}
+
+.sidebar-logo-text {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px var(--space-md);
+  border-radius: var(--radius-btn);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background-color: var(--color-primary-light);
+}
+
+.sidebar-link.active {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.sidebar-footer-card {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-primary-dark);
+}
+
+/* ==========================================================================
+   Top Bar
+   ========================================================================== */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.topbar h1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.topbar p {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.topbar-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-card-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.icon-btn.profile {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.card {
+  background-color: var(--color-card-bg);
+  border: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-md);
+}
+
+.stat-card {
+  background-color: var(--color-card-bg);
+  border: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: var(--space-md);
+}
+
+.stat-card .stat-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.stat-card .stat-value {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.stat-card .stat-delta {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stat-delta.positive { color: var(--color-primary); }
+.stat-delta.negative { color: var(--color-accent-red); }
+
+/* ==========================================================================
+   Icon Circles (used in History Breakdown, Add Data, etc.)
+   ========================================================================== */
+
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.icon-circle.blue   { background-color: #e3f2fd; }
+.icon-circle.orange { background-color: #fff8e1; }
+.icon-circle.green  { background-color: #e8f5e9; }
+.icon-circle.purple { background-color: #f3e5f5; }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 10px 20px;
+  border-radius: var(--radius-btn);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Tags / Badges
+   ========================================================================== */
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.tag-high {
+  background-color: #e8f5e9;
+  color: var(--color-primary-dark);
+}
+
+.tag-medium {
+  background-color: #fff8e1;
+  color: #a67c00;
+}
+
+.tag-low {
+  background-color: #ffebee;
+  color: var(--color-accent-red);
+}
+
+/* ==========================================================================
+   Settings — clickable rows
+   ========================================================================== */
+
+.settings-item {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-radius: 8px;
+}
+
+.settings-item:hover {
+  background-color: var(--color-primary-light);
+}
+
+/* ==========================================================================
+   Dark Mode
+   ========================================================================== */
+
+body.dark-mode {
+  --color-text: #f3f4f6;
+  --color-text-muted: #9ca3af;
+  --color-border: #374151;
+  --color-bg: #121712;
+  --color-card-bg: #1c211c;
+  --color-sidebar-bg: #161a16;
+}
+
+body.dark-mode .settings-item:hover {
+  background-color: #202920;
+}
+
+body.dark-mode select,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="number"] {
+  background-color: #1c211c;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Footprint · Carbon Footprint Tracker</title>
+<link rel="stylesheet" href="../css/styles.css" />
+<script src="../js/theme.js"></script>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ===== SIDEBAR (copied from index.html — keep in sync with other pages) ===== -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌱</div>
+        <div class="sidebar-logo-text">CARBON<br>FOOTPRINT<br>TRACKER</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="../index.html" class="sidebar-link">🏠 Dashboard</a>
+        <a href="add-data.html" class="sidebar-link">➕ Add Data</a>
+        <a href="../quiz/quiz.html" class="sidebar-link">📝 Take Quiz</a>
+        <a href="my-footprint.html" class="sidebar-link active">👣 My Footprint</a>
+        <a href="history.html" class="sidebar-link">📊 History</a>
+        <a href="tips.html" class="sidebar-link">🌿 Tips &amp; Actions</a>
+        <a href="profile.html" class="sidebar-link">👤 Profile</a>
+        <a href="settings.html" class="sidebar-link">⚙️ Settings</a>
+      </nav>
+    </div>
+    <div class="sidebar-footer-card">
+      🌍 Small steps today,<br>better planet tomorrow.
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main-content">
+
+    <div class="topbar">
+      <div>
+        <h1>My Footprint</h1>
+        <p>A closer look at where your emissions come from.</p>
+      </div>
+      <div class="topbar-icons">
+        <div class="icon-btn">🔔</div>
+        <div class="icon-btn profile">U</div>
+      </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="card-grid" id="footprintStats" style="margin-bottom: var(--space-lg);">
+      <div class="stat-card">
+        <div class="stat-label">TOTAL THIS MONTH</div>
+        <div class="stat-value" id="statTotal">0 kg CO₂e</div>
+        <div class="stat-delta" id="statTotalDelta">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">DAILY AVERAGE</div>
+        <div class="stat-value" id="statDaily">0 kg CO₂e</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">BIGGEST CONTRIBUTOR</div>
+        <div class="stat-value" id="statTopCategory">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">VS. AVERAGE PERSON</div>
+        <div class="stat-value" id="statVsAverage">—</div>
+      </div>
+    </div>
+
+    <!-- Monthly goal -->
+    <div class="card">
+      <div class="card-title">MONTHLY GOAL</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div style="font-size:13px; color:var(--color-text-muted);">
+          <span id="goalProgressText">0 of 0 kg CO₂e</span> used this month
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="number" id="goalInput" placeholder="Set target (kg)" style="width:140px; padding:8px 10px; border:1px solid var(--color-border); border-radius:var(--radius-btn); font-family:var(--font-main); font-size:13px;" />
+          <button class="btn btn-primary" id="saveGoalBtn">Save Goal</button>
+        </div>
+      </div>
+      <div style="background:var(--color-primary-light); border-radius:999px; height:12px; overflow:hidden;">
+        <div id="goalBar" style="background:var(--color-primary); height:100%; width:0%; border-radius:999px; transition:width 0.3s ease;"></div>
+      </div>
+      <div style="margin-top:8px;">
+        <span class="tag" id="goalTag">—</span>
+      </div>
+    </div>
+
+    <!-- Category breakdown -->
+    <div class="card">
+      <div class="card-title">FOOTPRINT COMPOSITION</div>
+      <div id="breakdownList" style="display:flex; flex-direction:column; gap:16px;">
+        <!-- rendered by my-footprint.js -->
+      </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="card">
+      <div class="card-title">HOW YOU COMPARE</div>
+      <div class="card-grid">
+        <div class="stat-card">
+          <div class="stat-label">THIS MONTH</div>
+          <div class="stat-value" id="cmpThisMonth">0 kg CO₂e</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">LAST MONTH</div>
+          <div class="stat-value" id="cmpLastMonth">0 kg CO₂e</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">YOUR 3-MONTH AVG</div>
+          <div class="stat-value" id="cmpAvg">0 kg CO₂e</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">GLOBAL AVERAGE*</div>
+          <div class="stat-value">300 kg CO₂e</div>
+        </div>
+      </div>
+      <p style="font-size:11px; color:var(--color-text-muted); margin-top:12px;">
+        *Approximate monthly per-person footprint benchmark, used for comparison only.
+      </p>
+    </div>
+
+  </main>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="../js/my-footprint.js"></script>
+</body>
+</html>
