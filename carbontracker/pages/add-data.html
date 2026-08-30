@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Data - Carbon Footprint Tracker</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/theme.js"></script>
+</head>
+<body>
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌱</div>
+        <div class="sidebar-logo-text">CARBON<br>FOOTPRINT<br>TRACKER</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="../index.html" class="sidebar-link">🏠 Dashboard</a>
+        <a href="add-data.html" class="sidebar-link active">➕ Add Data</a>
+        <a href="../quiz/quiz.html" class="sidebar-link">📝 Take Quiz</a>
+        <a href="my-footprint.html" class="sidebar-link">👣 My Footprint</a>
+        <a href="history.html" class="sidebar-link">📊 History</a>
+        <a href="tips.html" class="sidebar-link">🌿 Tips & Actions</a>
+        <a href="profile.html" class="sidebar-link">👤 Profile</a>
+        <a href="settings.html" class="sidebar-link">⚙️ Settings</a>
+      </nav>
+    </div>
+    <div class="sidebar-footer-card">
+      Small steps today,<br>better world tomorrow. 💚
+    </div>
+  </aside>
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="topbar">
+      <div>
+        <h1>Add Data</h1>
+        <p>Log today's activity to update your footprint.</p>
+      </div>
+      <div class="topbar-icons">
+        <div class="icon-btn">🔔</div>
+        <div class="profile-menu">
+          <div class="icon-btn profile" id="profileBtn">👤</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">👤</div>
+              <div>
+                <div class="profile-dropdown-name" id="dropdownUserName">User</div>
+                <div class="profile-dropdown-email" id="dropdownUserEmail">Loading…</div>
+              </div>
+            </div>
+            <a href="profile.html" class="profile-dropdown-item">👤 Account Details</a>
+            <a href="settings.html" class="profile-dropdown-item">⚙️ Settings</a>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-dropdown-item signout" id="signOutBtn">🚪 Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-grid">
+        <div>
+          <div class="icon-circle blue" style="margin-bottom:10px;">🚗</div>
+          <div style="font-weight:600; margin-bottom:10px;">Transportation</div>
+          <label style="font-size:13px; color:var(--color-text-muted);">Distance Travelled (km)</label>
+          <input type="number" id="distance" placeholder="0" style="width:100%; padding:8px; margin-top:4px; margin-bottom:10px; border-radius:6px; border:1px solid var(--color-border);">
+          <label style="font-size:13px; color:var(--color-text-muted);">Mode</label>
+          <select id="mode" style="width:100%; padding:8px; margin-top:4px; border-radius:6px; border:1px solid var(--color-border);">
+            <option value="car">Car</option>
+            <option value="bus">Bus</option>
+            <option value="bike">Bike</option>
+            <option value="walk">Walk</option>
+          </select>
+        </div>
+        <div>
+          <div class="icon-circle orange" style="margin-bottom:10px;">⚡</div>
+          <div style="font-weight:600; margin-bottom:10px;">Electricity</div>
+          <label style="font-size:13px; color:var(--color-text-muted);">Monthly Usage (kWh)</label>
+          <input type="number" id="electricity" placeholder="0" style="width:100%; padding:8px; margin-top:4px; border-radius:6px; border:1px solid var(--color-border);">
+        </div>
+        <div>
+          <div class="icon-circle green" style="margin-bottom:10px;">🔥</div>
+          <div style="font-weight:600; margin-bottom:10px;">Fuel / LPG</div>
+          <label style="font-size:13px; color:var(--color-text-muted);">Monthly Usage (kg)</label>
+          <input type="number" id="fuel" placeholder="0" style="width:100%; padding:8px; margin-top:4px; border-radius:6px; border:1px solid var(--color-border);">
+        </div>
+        <div>
+          <div class="icon-circle purple" style="margin-bottom:10px;">🗑️</div>
+          <div style="font-weight:600; margin-bottom:10px;">Waste</div>
+          <label style="font-size:13px; color:var(--color-text-muted);">Waste Generated (kg)</label>
+          <input type="number" id="waste" placeholder="0" style="width:100%; padding:8px; margin-top:4px; margin-bottom:10px; border-radius:6px; border:1px solid var(--color-border);">
+          <label style="font-size:13px; color:var(--color-text-muted);">Recycled?</label>
+          <select id="recycled" style="width:100%; padding:8px; margin-top:4px; border-radius:6px; border:1px solid var(--color-border);">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      </div>
+      <button id="calculateBtn" class="btn btn-primary btn-block" style="margin-top:24px;">
+        📊 Calculate My Footprint
+      </button>
+      <div id="successMsg" style="display:none; margin-top:16px; padding:12px; background:var(--color-primary-light); color:var(--color-primary-dark); border-radius:8px; text-align:center; font-weight:600;">
+        ✅ Saved! Check your History page to see it reflected.
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/add-data.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById('profileBtn');
+  var menu = document.getElementById('profileDropdown');
+  if (btn && menu) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('open');
+      }
+    });
+  }
+  try {
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        var nameEl = document.getElementById('dropdownUserName');
+        var emailEl = document.getElementById('dropdownUserEmail');
+        if (user) {
+          if (nameEl) nameEl.textContent = user.displayName || 'User';
+          if (emailEl) emailEl.textContent = user.email || '';
+        } else {
+          if (emailEl) emailEl.textContent = 'Not signed in';
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('Could not load account details:', err);
+  }
+  var signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', function () {
+      if (typeof logout === 'function') {
+        logout();
+      } else if (window.firebase && firebase.auth) {
+        firebase.auth().signOut().finally(function () {
+          window.location.href = 'login.html';
+        });
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

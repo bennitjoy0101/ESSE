@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>History - Carbon Footprint Tracker</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/theme.js"></script>
+</head>
+<body>
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌱</div>
+        <div class="sidebar-logo-text">CARBON<br>FOOTPRINT<br>TRACKER</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="../index.html" class="sidebar-link">🏠 Dashboard</a>
+        <a href="add-data.html" class="sidebar-link">➕ Add Data</a>
+        <a href="../quiz/quiz.html" class="sidebar-link">📝 Take Quiz</a>
+        <a href="my-footprint.html" class="sidebar-link">👣 My Footprint</a>
+        <a href="history.html" class="sidebar-link active">📊 History</a>
+        <a href="tips.html" class="sidebar-link">🌿 Tips & Actions</a>
+        <a href="profile.html" class="sidebar-link">👤 Profile</a>
+        <a href="settings.html" class="sidebar-link">⚙️ Settings</a>
+      </nav>
+    </div>
+    <div class="sidebar-footer-card">
+      Small steps today,<br>better world tomorrow. 💚
+    </div>
+  </aside>
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="topbar">
+      <div>
+        <h1>History</h1>
+        <p>Track your progress over time.</p>
+      </div>
+      <div class="topbar-icons">
+        <div class="icon-btn">🔔</div>
+        <div class="profile-menu">
+          <div class="icon-btn profile" id="profileBtn">👤</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">👤</div>
+              <div>
+                <div class="profile-dropdown-name" id="dropdownUserName">User</div>
+                <div class="profile-dropdown-email" id="dropdownUserEmail">Loading…</div>
+              </div>
+            </div>
+            <a href="profile.html" class="profile-dropdown-item">👤 Account Details</a>
+            <a href="settings.html" class="profile-dropdown-item">⚙️ Settings</a>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-dropdown-item signout" id="signOutBtn">🚪 Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- STAT CARDS -->
+    <div class="card-grid" style="margin-bottom: 24px;">
+      <div class="stat-card">
+        <div class="stat-label">THIS MONTH</div>
+        <div class="stat-value">125 kg CO₂e</div>
+        <div class="stat-delta positive">↓ 15% vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">LAST MONTH</div>
+        <div class="stat-value">147 kg CO₂e</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">3 MONTH AVG</div>
+        <div class="stat-value">138 kg CO₂e</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">TOTAL REDUCTION</div>
+        <div class="stat-value">↓ 12%</div>
+        <div class="stat-delta positive">vs your baseline</div>
+      </div>
+    </div>
+    <!-- EMISSION HISTORY CHART -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+        <div class="card-title" style="margin-bottom:0;">YOUR EMISSION HISTORY</div>
+        <select id="rangeSelect" style="padding:6px 10px; border-radius:6px; border:1px solid var(--color-border);">
+          <option>Last 6 Months</option>
+          <option>Last 3 Months</option>
+          <option>This Year</option>
+        </select>
+      </div>
+      <canvas id="historyChart" height="220"></canvas>
+    </div>
+    <!-- HISTORY BREAKDOWN -->
+    <div class="card">
+      <div class="card-title">HISTORY BREAKDOWN</div>
+      <div class="card-grid">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="icon-circle blue">🚗</div>
+          <div>
+            <div style="font-weight:600;">Transportation</div>
+            <div style="color:var(--color-text-muted); font-size:13px;">540 kg CO₂e</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="icon-circle orange">⚡</div>
+          <div>
+            <div style="font-weight:600;">Electricity</div>
+            <div style="color:var(--color-text-muted); font-size:13px;">310 kg CO₂e</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="icon-circle green">🔥</div>
+          <div>
+            <div style="font-weight:600;">Fuel / LPG</div>
+            <div style="color:var(--color-text-muted); font-size:13px;">210 kg CO₂e</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="icon-circle purple">🗑️</div>
+          <div>
+            <div style="font-weight:600;">Waste</div>
+            <div style="color:var(--color-text-muted); font-size:13px;">125 kg CO₂e</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/data.js"></script>
+<script src="../js/history.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById('profileBtn');
+  var menu = document.getElementById('profileDropdown');
+  if (btn && menu) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('open');
+      }
+    });
+  }
+  try {
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        var nameEl = document.getElementById('dropdownUserName');
+        var emailEl = document.getElementById('dropdownUserEmail');
+        if (user) {
+          if (nameEl) nameEl.textContent = user.displayName || 'User';
+          if (emailEl) emailEl.textContent = user.email || '';
+        } else {
+          if (emailEl) emailEl.textContent = 'Not signed in';
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('Could not load account details:', err);
+  }
+  var signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', function () {
+      if (typeof logout === 'function') {
+        logout();
+      } else if (window.firebase && firebase.auth) {
+        firebase.auth().signOut().finally(function () {
+          window.location.href = 'login.html';
+        });
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Carbon Footprint Quiz</title>
+
+    <link rel="stylesheet" href="quiz.css">
+
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            CarbonFootprint
+        </div>
+
+        <a href="../index.html">
+            Home
+        </a>
+
+    </nav>
+
+
+    <main>
+
+        <div class="quiz-container">
+
+            <div id="categorySteps" class="category-steps"></div>
+
+            <p id="progress">
+                Loading...
+            </p>
+
+            <h1 id="question">
+                Loading question...
+            </h1>
+
+            <div id="options"></div>
+
+            <button id="nextBtn" disabled>
+                Next
+            </button>
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div id="result">
+
+            <h1>Your Carbon Footprint</h1>
+
+            <div class="result-card">
+
+                <p>Transportation</p>
+
+                <h2 id="transportResult">
+                    0 kg CO₂e/year
+                </h2>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <p>Flights</p>
+
+                <h2 id="flightResult">
+                    0 kg CO₂e/year
+                </h2>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <p>Food</p>
+
+                <h2 id="foodResult">
+                    0 kg CO₂e/year
+                </h2>
+
+            </div>
+
+
+            <div class="total-card">
+
+                <p>Total Annual Footprint</p>
+
+                <h1 id="totalResult">
+                    0 kg CO₂e/year
+                </h1>
+
+                <h2 id="tonnesResult">
+                    0 tonnes CO₂e/year
+                </h2>
+
+            </div>
+
+            <a href="quiz.html">
+                <button>
+                    Take Quiz Again
+                </button>
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
