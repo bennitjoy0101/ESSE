@@ -5,7 +5,7 @@ let isSignUpMode = false;
 
 document.addEventListener("DOMContentLoaded", () => {
   auth.onAuthStateChanged((user) => {
-    if (user) window.location.href = "../index.html";
+    if (user) window.location.href = "../dashboard.html";
   });
 
   const submitBtn = document.getElementById("submitBtn");
@@ -40,14 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
       : auth.signInWithEmailAndPassword(email, password);
 
     action
-      .then(() => { window.location.href = "../index.html"; })
+      .then(() => { window.location.href = "../dashboard.html"; })
       .catch((err) => showError(err.message));
   });
 
   googleBtn.addEventListener("click", () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-      .then(() => { window.location.href = "../index.html"; })
+      .then(() => { window.location.href = "../dashboard.html"; })
       .catch((err) => showError(err.message));
   });
 

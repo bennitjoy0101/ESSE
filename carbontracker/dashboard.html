@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard - Carbon Footprint Tracker</title>
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth-guard.js"></script>
+<script src="js/theme.js"></script>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar sidebar-collapsible">
+    <div>
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌱</div>
+        <div class="sidebar-logo-text">CARBON<br>FOOTPRINT<br>TRACKER</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link active"><span class="sidebar-icon">🏠</span><span class="sidebar-label">Dashboard</span></a>
+        <a href="pages/add-data.html" class="sidebar-link"><span class="sidebar-icon"><img src="ui/1.png" alt="Logo" class="nav-logo"></span><span class="sidebar-label"> Add Data</span></a>
+        <a href="quiz/quiz.html" class="sidebar-link"><span class="sidebar-icon"><img src="ui/4.png" alt="Icon" class="nav-logo"></span><span class="sidebar-label">Take Quiz</span></a>
+        <a href="pages/my-footprint.html" class="sidebar-link"><span class="sidebar-icon"><img src="ui/2.png" alt="Take Quiz" class="nav-logo"></span><span class="sidebar-label">My Footprint</span></a>
+        <a href="pages/history.html" class="sidebar-link"><span class="sidebar-icon"><img src="ui/3.png" alt="Icon" class="nav-logo"></span><span class="sidebar-label">History</span></a>
+        <a href="pages/tips.html" class="sidebar-link"><span class="sidebar-icon"><img src="ui/5.png" alt="Icon" class="nav-logo"></span><span class="sidebar-label">Tips & Actions</span></a>
+        <a href="pages/profile.html" class="sidebar-link"><span class="sidebar-icon">👤</span><span class="sidebar-label">Profile</span></a>
+        <a href="pages/settings.html" class="sidebar-link"><span class="sidebar-icon">⚙️</span><span class="sidebar-label">Settings</span></a>
+      </nav>
+    </div>
+    <div class="sidebar-footer-card">
+      <span class="sidebar-footer-text">Small steps today,<br>better world tomorrow. 💚</span>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <div class="topbar">
+      <div>
+        <h1>Welcome, User!</h1>
+        <p>Track. Reduce. Make a Difference.</p>
+      </div>
+      <div class="topbar-icons">
+        <div class="icon-btn">🔔</div>
+        <div class="profile-menu">
+          <div class="icon-btn profile" id="profileBtn">👤</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">👤</div>
+              <div>
+                <div class="profile-dropdown-name" id="dropdownUserName">User</div>
+                <div class="profile-dropdown-email" id="dropdownUserEmail">Loading…</div>
+              </div>
+            </div>
+            <a href="pages/profile.html" class="profile-dropdown-item">👤 Account Details</a>
+            <a href="pages/settings.html" class="profile-dropdown-item">⚙️ Settings</a>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-dropdown-item signout" id="signOutBtn">🚪 Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WELCOME / GET STARTED (shown only when the user has no entries yet) -->
+    <div class="card" id="onboardingCard" style="display:none;">
+      <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+        <div class="icon-circle green" style="width:64px; height:64px; font-size:28px; flex-shrink:0;">🌱</div>
+        <div style="flex:1; min-width:220px;">
+          <div class="card-title" style="margin-bottom:6px;">WELCOME TO CARBON FOOTPRINT TRACKER</div>
+          <p style="color:var(--color-text-muted); margin-bottom:16px;">
+            You haven't logged anything yet. Add your transport, electricity, fuel, and waste for a single day to see your first footprint estimate, track it over time, and get tips tailored to you.
+          </p>
+          <a href="pages/add-data.html" class="btn btn-primary">🚀 Get Started</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTPRINT SUMMARY -->
+    <div class="card" id="footprintCard">
+      <div class="card-title">YOUR CARBON FOOTPRINT</div>
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr 1fr; align-items:center;">
+        <div>
+          <div id="footprintValue" style="font-size:36px; font-weight:700; color:var(--color-primary);">0</div>
+          <div style="color:var(--color-text-muted);">kg CO₂e</div>
+          <div style="color:var(--color-text-muted); font-size:13px;">This Month</div>
+        </div>
+        <div style="text-align:center;">
+          <canvas id="gaugeCanvas" width="200" height="120"></canvas>
+          <div id="gaugeLabel" style="font-weight:700; margin-top:8px;">Low</div>
+          <div style="color:var(--color-text-muted); font-size:13px;">Keep going! You're doing great.</div>
+        </div>
+        <div>
+          <div style="color:var(--color-text-muted); font-size:13px;">Compared to Last Month</div>
+          <div id="comparePct" style="font-size:24px; font-weight:700; color:var(--color-primary);">↓ 0%</div>
+          <div style="color:var(--color-text-muted); font-size:13px;">Keep it up!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ADD -->
+    <div class="card">
+      <div class="card-title">ADD YOUR DAILY DATA</div>
+      <p style="color:var(--color-text-muted); margin-bottom:16px;">Log today's activity to see your footprint update.</p>
+      <a href="pages/add-data.html" class="btn btn-primary">📊 Go to Add Data</a>
+    </div>
+
+    <!-- BREAKDOWN + TIPS -->
+    <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">EMISSION BREAKDOWN</div>
+        <div class="donut-flex">
+          <div class="donut-wrap" id="breakdownDonut">
+            <div class="donut-ring" id="breakdownRing"></div>
+            <div class="donut-hole">
+              <div class="donut-hole-value" id="breakdownCenterValue">0</div>
+              <div class="donut-hole-label">kg CO₂e</div>
+            </div>
+          </div>
+          <div class="donut-legend" id="breakdownLegend"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">TIPS TO REDUCE YOUR FOOTPRINT</div>
+        <div style="display:flex; gap:10px; margin-bottom:14px;">
+          <span>🚌</span>
+          <div style="font-size:13px;">Use public transport, carpool or cycle for short distances.</div>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:14px;">
+          <span>💡</span>
+          <div style="font-size:13px;">Switch off lights and appliances when not in use.</div>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:14px;">
+          <span>♻️</span>
+          <div style="font-size:13px;">Reduce waste and recycle more.</div>
+        </div>
+        <a href="pages/tips.html" class="btn btn-outline btn-block">VIEW ALL TIPS</a>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById('profileBtn');
+  var menu = document.getElementById('profileDropdown');
+  if (btn && menu) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('open');
+      }
+    });
+  }
+
+  // Populate account details from Firebase auth, if available.
+  try {
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        var nameEl = document.getElementById('dropdownUserName');
+        var emailEl = document.getElementById('dropdownUserEmail');
+        if (user) {
+          if (nameEl) nameEl.textContent = user.displayName || 'User';
+          if (emailEl) emailEl.textContent = user.email || '';
+        } else {
+          if (emailEl) emailEl.textContent = 'Not signed in';
+        }
+      });
+    }
+  } catch (err) {
+    console.warn('Could not load account details:', err);
+  }
+
+  var signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', function () {
+      if (typeof logout === 'function') {
+        logout();
+      } else {
+        window.location.href = 'pages/login.html';
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

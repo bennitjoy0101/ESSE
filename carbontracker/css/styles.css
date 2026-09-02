@@ -637,3 +637,12 @@ body.dark-mode .profile-dropdown-item:hover {
 body.dark-mode .profile-dropdown-item.signout:hover {
   background-color: #2a1a1a;
 }
+.nav-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    padding: 3px;
+}
+.btn {
+    text-decoration: none;
+}

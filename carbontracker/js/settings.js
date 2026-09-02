@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("cft_weekly_summary");
 
     alert("Your data has been deleted.");
-    window.location.href = "../index.html";
+    window.location.href = "../dashboard.html";
   });
 
   // --- About ---

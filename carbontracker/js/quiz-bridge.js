@@ -1,4 +1,8 @@
-// quiz-bridge.js — converts quiz results into a dashboard entry
+// quiz-bridge.js — reads the quiz's estimated results, but does NOT feed
+// them into the app's real entries store (the one saveEntry()/getAllEntries()
+// manage). Dashboard "This Month", History, and My Footprint should only
+// ever reflect data logged through Add Data — the quiz is a separate,
+// one-off estimate, not tracked activity.
 
 const bridgeRawResults = sessionStorage.getItem("carbonResults");
 
@@ -10,7 +14,7 @@ if (bridgeRawResults) {
   const bridgeMonthlyElectricity = (bridgeResults.electricity || 0) / 12;
   const bridgeMonthlyFuel = (bridgeResults.cooking || 0) / 12;
 
-  const bridgeEntry = {
+  const bridgeEstimate = {
     date: new Date().toISOString().split("T")[0],
     transportation: { distance: null, mode: "quiz", co2: bridgeMonthlyTransport },
     electricity: { usage: 0, co2: bridgeMonthlyElectricity },
@@ -19,14 +23,11 @@ if (bridgeRawResults) {
     food: { co2: bridgeMonthlyFood }
   };
 
-  // Note: the quiz's "shopping" answer has no home in this dashboard
-  // schema (transportation/electricity/fuel/waste/food only), so it
-  // is included in the meter's total/gauge but not carried into the
-  // dashboard entry. Add a "shopping" or "consumption" bucket across
-  // add-data.js / dashboard.js / history.js if you want it tracked there too.
+  // Intentionally NOT calling saveEntry(bridgeEstimate) here — quiz results
+  // must not count toward the dashboard meter, history, or footprint totals.
+  // Stored separately in case a results/summary view wants to show it later.
+  localStorage.setItem("cft_last_quiz_result", JSON.stringify(bridgeEstimate));
 
-  saveEntry(bridgeEntry);
-
-  // Clear so it doesn't get saved twice if the page reloads
+  // Clear so it doesn't get re-processed if the page reloads
   sessionStorage.removeItem("carbonResults");
 }
