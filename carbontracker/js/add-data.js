@@ -27,11 +27,12 @@ document.getElementById("calculateBtn").addEventListener("click", () => {
 
   saveEntry(entry);
 
-  document.getElementById("successMsg").style.display = "block";
+  // Flag for the History page so it can blink the result card once it loads.
+  try {
+    sessionStorage.setItem("ctJustAdded", "1");
+  } catch (err) {
+    // sessionStorage unavailable — redirect still works, just no highlight
+  }
 
-  // Reset form
-  document.getElementById("distance").value = "";
-  document.getElementById("electricity").value = "";
-  document.getElementById("fuel").value = "";
-  document.getElementById("waste").value = "";
+  window.location.href = "history.html";
 });

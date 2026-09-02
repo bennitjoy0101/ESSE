@@ -66,12 +66,21 @@ function renderFootprintValue(currentTotal) {
 
 function renderComparePct(currentTotal, lastTotal) {
   const el = document.getElementById("comparePct");
+  const msgEl = document.getElementById("comparePctMsg");
+
   if (lastTotal > 0) {
     const pct = Math.round(((lastTotal - currentTotal) / lastTotal) * 100);
     el.textContent = pct >= 0 ? `↓ ${pct}%` : `↑ ${Math.abs(pct)}%`;
     el.style.color = pct >= 0 ? "var(--color-primary)" : "var(--color-accent-red)";
+
+    if (msgEl) {
+      if (pct > 0) msgEl.textContent = "Keep it up!";
+      else if (pct === 0) msgEl.textContent = "Same as last month — try to trim it down.";
+      else msgEl.textContent = "Trending up — let's turn this around.";
+    }
   } else {
     el.textContent = "—";
+    if (msgEl) msgEl.textContent = "Add more data to see your trend.";
   }
 }
 
@@ -122,13 +131,23 @@ function drawGauge(currentTotal) {
   ctx.fillStyle = "#1f2937";
   ctx.fill();
 
-  let text, color;
-  if (currentTotal <= LOW_MAX) { text = "Low"; color = "#2e7d32"; }
-  else if (currentTotal <= MED_MAX) { text = "Medium"; color = "#f9a825"; }
-  else { text = "High"; color = "#e53935"; }
+  let text, color, message;
+  if (currentTotal <= LOW_MAX) {
+    text = "Low"; color = "#2e7d32";
+    message = "Keep going! You're doing great.";
+  } else if (currentTotal <= MED_MAX) {
+    text = "Medium"; color = "#f9a825";
+    message = "Doing okay — there's room to cut back further.";
+  } else {
+    text = "High"; color = "#e53935";
+    message = "Your footprint is high — check Tips & Actions to bring it down.";
+  }
 
   label.textContent = text;
   label.style.color = color;
+
+  const msgEl = document.getElementById("gaugeMsg");
+  if (msgEl) msgEl.textContent = message;
 }
 
 function drawBreakdownChart(totals, grandTotal) {

@@ -417,6 +417,18 @@ body {
 .stat-delta.positive { color: var(--color-primary); }
 .stat-delta.negative { color: var(--color-accent-red); }
 
+/* Highlight animation for a card that was just updated (e.g. after Add Data redirect).
+   One keyframe cycle = one blink; iteration-count 2 below makes it blink twice. */
+@keyframes ct-card-blink {
+  0%   { box-shadow: var(--shadow-card); border-color: rgba(46, 125, 50, 0.06); background-color: var(--color-card-bg); }
+  50%  { box-shadow: 0 0 0 3px var(--color-primary-soft); border-color: var(--color-primary); background-color: var(--color-primary-light); }
+  100% { box-shadow: var(--shadow-card); border-color: rgba(46, 125, 50, 0.06); background-color: var(--color-card-bg); }
+}
+
+.stat-card.ct-highlight {
+  animation: ct-card-blink 0.6s ease-in-out 2;
+}
+
 /* ==========================================================================
    Icon Circles (used in History Breakdown, Add Data, etc.)
    ========================================================================== */

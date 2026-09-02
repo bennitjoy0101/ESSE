@@ -62,23 +62,23 @@
     </div>
     <!-- STAT CARDS -->
     <div class="card-grid" style="margin-bottom: 24px;">
-      <div class="stat-card">
+      <div class="stat-card" id="statCardThisMonth">
         <div class="stat-label">THIS MONTH</div>
-        <div class="stat-value">125 kg CO₂e</div>
-        <div class="stat-delta positive">↓ 15% vs last month</div>
+        <div class="stat-value" id="statThisMonthValue">0 kg CO₂e</div>
+        <div class="stat-delta positive" id="statThisMonthDelta"></div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" id="statCardLastMonth">
         <div class="stat-label">LAST MONTH</div>
-        <div class="stat-value">147 kg CO₂e</div>
+        <div class="stat-value" id="statLastMonthValue">0 kg CO₂e</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" id="statCardAvg3">
         <div class="stat-label">3 MONTH AVG</div>
-        <div class="stat-value">138 kg CO₂e</div>
+        <div class="stat-value" id="statAvg3Value">0 kg CO₂e</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" id="statCardReduction">
         <div class="stat-label">TOTAL REDUCTION</div>
-        <div class="stat-value">↓ 12%</div>
-        <div class="stat-delta positive">vs your baseline</div>
+        <div class="stat-value" id="statReductionValue">—</div>
+        <div class="stat-delta positive" id="statReductionDelta">vs your baseline</div>
       </div>
     </div>
     <!-- EMISSION HISTORY CHART -->
@@ -101,28 +101,28 @@
           <div class="icon-circle blue">🚗</div>
           <div>
             <div style="font-weight:600;">Transportation</div>
-            <div style="color:var(--color-text-muted); font-size:13px;">540 kg CO₂e</div>
+            <div style="color:var(--color-text-muted); font-size:13px;" id="breakdownTransportation">0 kg CO₂e</div>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
           <div class="icon-circle orange">⚡</div>
           <div>
             <div style="font-weight:600;">Electricity</div>
-            <div style="color:var(--color-text-muted); font-size:13px;">310 kg CO₂e</div>
+            <div style="color:var(--color-text-muted); font-size:13px;" id="breakdownElectricity">0 kg CO₂e</div>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
           <div class="icon-circle green">🔥</div>
           <div>
             <div style="font-weight:600;">Fuel / LPG</div>
-            <div style="color:var(--color-text-muted); font-size:13px;">210 kg CO₂e</div>
+            <div style="color:var(--color-text-muted); font-size:13px;" id="breakdownFuel">0 kg CO₂e</div>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
           <div class="icon-circle purple">🗑️</div>
           <div>
             <div style="font-weight:600;">Waste</div>
-            <div style="color:var(--color-text-muted); font-size:13px;">125 kg CO₂e</div>
+            <div style="color:var(--color-text-muted); font-size:13px;" id="breakdownWaste">0 kg CO₂e</div>
           </div>
         </div>
       </div>
